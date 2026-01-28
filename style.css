@@ -1,9 +1,15 @@
 /* ===== 全体 ===== */
+* {
+  box-sizing: border-box;
+}
 body {
   font-family: "Segoe UI", sans-serif;
   background: linear-gradient(180deg, #87cefa, #1e90ff); /* 明るい青空風 */
   color: #fff;
   padding: 20px;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 h1, h2, h3 {
