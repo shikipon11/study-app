@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Study Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>勉強記録</h1>
+
+<!-- ===== メインページ ===== -->
+<div id="main-page">
+
+  <!-- XP / レベル -->
+  <p>Lv: <span id="level">1</span></p>
+  <div id="xp-box">
+    <div id="xp-bar"></div>
+  </div>
+  <p><span id="xp">0</span> / <span id="max-xp">100</span> XP</p>
+
+  <!-- 進捗サマリー -->
+  <div id="progress-summary">
+    <p>連続勉強日数: <span id="streak">0</span> 日</p>
+    <p>最高連続勉強日数: <span id="max-streak">0</span> 日</p>
+    <p>昨日の勉強時間: <span id="yesterday-time">0</span> 分</p>
+  </div>
+
+  <!-- ===== 勉強入力 ===== -->
+  <select id="subject"></select>
+  <input type="number" id="study-time" placeholder="勉強時間（分）">
+  <button id="study-button">勉強した！</button>
+  <p id="record-msg"></p>
+
+<!-- ===== 教科ごとのやることリスト ===== -->
+<h3>やることリスト</h3>
+
+<ul id="todo-list"></ul> <!-- リスト表示 -->
+
+<select id="todo-subject"></select>
+<input type="text" id="new-todo" placeholder="やることを追加">
+<button id="add-todo">追加</button>
+
+  <!-- 教科追加 -->
+  <input type="text" id="new-subject" placeholder="新しい教科">
+  <button id="add-subject">教科追加</button>
+
+  <br><br>
+  <button id="to-records">勉強記録を見る</button>
+</div>
+
+<!-- ===== 記録ページ ===== -->
+<div id="records-page" style="display:none;">
+  <h2>今週の勉強</h2>
+  <div id="graph-wrapper">
+    <div id="y-axis"></div>
+    <div id="week-graph"></div>
+  </div>
+
+  <h2>カレンダー</h2>
+  <div id="calendar"></div>
+
+  <h3 id="detail-title">日付を選択</h3>
+  <ul id="day-detail"></ul>
+
+  <button id="to-main">戻る</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>

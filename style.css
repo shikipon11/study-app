@@ -1,0 +1,224 @@
+/* ===== 全体 ===== */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #87cefa, #1e90ff); /* 明るい青空風 */
+  color: #fff;
+  padding: 20px;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* ===== カード ===== */
+#main-page, #records-page {
+  background: linear-gradient(145deg, #ffffff, #e0e0e0);
+  color: #000;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ===== XPバー ===== */
+#xp-box {
+  width: 100%;
+  height: 20px;
+  background: #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+#xp-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ffeb3b, #ff9800);
+  transition: width 0.3s ease;
+  border-radius: 12px;
+}
+
+/* ===== 入力系 ===== */
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* ===== ボタン ===== */
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+/* 勉強ボタン */
+#study-button {
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  color: #fff;
+}
+#study-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 教科追加ボタン */
+#add-subject {
+  background: linear-gradient(135deg, #ff5722, #ff7043);
+  color: #fff;
+}
+#add-subject:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* やること追加ボタン */
+#add-todo {
+  background: linear-gradient(135deg, #2196f3, #03a9f4);
+  color: #fff;
+}
+#add-todo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 記録ページ戻るボタン */
+#to-main, #to-records {
+  background: linear-gradient(135deg, #9c27b0, #e91e63);
+  color: #fff;
+}
+#to-main:hover, #to-records:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* ===== グラフ ===== */
+#graph-wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 20px;
+}
+
+#y-axis {
+  width: 40px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #555;
+}
+
+#week-graph {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  width: 100%;
+  height: 180px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #f0f0f0;
+}
+
+/* 1日分 */
+.day-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* 棒 */
+.bar {
+  width: 100%;
+  height: 140px;
+  border-radius: 6px;
+  background: #ddd;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+}
+
+/* 教科セグメント */
+.segment {
+  width: 100%;
+}
+
+/* 曜日 */
+.day-label {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #555;
+}
+
+/* ===== カレンダー ===== */
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.calendar-day {
+  padding: 8px;
+  background: #c5cae9;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.calendar-day:hover {
+  background: #7986cb;
+  transform: scale(1.05);
+}
+
+.calendar-day.has-record {
+  background: linear-gradient(135deg, #ffeb3b, #ffc107);
+  color: #000;
+}
+
+/* ===== 日付詳細 ===== */
+#day-detail {
+  margin-top: 10px;
+  padding-left: 16px;
+}
+
+/* ===== やることリスト ===== */
+#todo-list {
+  margin-top: 10px;
+  padding-left: 16px;
+}
+
+#todo-list li {
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background: #81d4fa;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.2s;
+}
+
+#todo-list li:hover {
+  transform: scale(1.03);
+  background: #4fc3f7;
+}
+
+#todo-list li.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+  background: #b0bec5;
+}
