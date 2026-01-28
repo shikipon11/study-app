@@ -247,3 +247,58 @@ button {
 .todo-delete:hover {
   color: #e53935;
 }
+/* =========================
+   スマホ対応（600px以下）
+   ========================= */
+@media (max-width: 600px) {
+
+  body {
+    padding: 10px;
+  }
+
+  /* 全体カード系を画面にフィットさせる */
+  .card {
+    max-width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  /* タイトル文字を少し小さく */
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  /* 入力欄とボタンを縦並びに */
+  .input-area {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-area input {
+    width: 100%;
+    font-size: 16px; /* iPhoneで拡大されない */
+    padding: 12px;
+  }
+
+  .input-area button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  /* やることリスト1行の高さを少し余裕持たせる */
+  .todo-item {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  /* ×ボタン（位置は絶対に変えない） */
+  .delete-btn {
+    font-size: 18px;
+    padding: 4px 8px;
+  }
+}
