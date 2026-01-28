@@ -160,15 +160,46 @@ function getTodayTodos(subject) {
 function renderTodoList(subject) {
   const ul = document.getElementById("todo-list");
   ul.innerHTML = "";
-  getTodayTodos(subject).forEach(t => {
+
+  getTodayTodos(subject).forEach((t, index) => {
     const li = document.createElement("li");
-    li.textContent = t.text;
+    li.style.display = "flex";              // 横並び
+    li.style.justifyContent = "space-between"; // 左右に配置
+    li.style.alignItems = "center";         // 縦中央
+
+    // テキストノードを作成
+    const textNode = document.createTextNode(t.text);
+    li.appendChild(textNode);
+
     if (t.done) li.classList.add("completed");
+
+    // クリックで完了切替
     li.onclick = () => {
       t.done = !t.done;
       renderTodoList(subject);
       saveData();
     };
+
+    // 削除ボタン
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "×";
+    delBtn.style.background = "transparent";
+    delBtn.style.border = "none";
+    delBtn.style.color = "red";
+    delBtn.style.cursor = "pointer";
+    delBtn.style.width = "24px";
+    delBtn.style.height = "24px";
+    delBtn.style.padding = "0";
+    delBtn.style.fontSize = "16px";
+    delBtn.style.lineHeight = "24px";
+    delBtn.onclick = (e) => {
+      e.stopPropagation(); // 完了切替と干渉させない
+      getTodayTodos(subject).splice(index, 1);
+      renderTodoList(subject);
+      saveData();
+    };
+
+    li.appendChild(delBtn);
     ul.appendChild(li);
   });
 }

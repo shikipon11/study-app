@@ -4,7 +4,7 @@
 }
 body {
   font-family: "Segoe UI", sans-serif;
-  background: linear-gradient(180deg, #87cefa, #1e90ff); /* 明るい青空風 */
+  background: linear-gradient(180deg, #87cefa, #1e90ff);
   color: #fff;
   padding: 20px;
   min-height: 100vh;
@@ -218,41 +218,11 @@ button {
   transition: transform 0.1s, background 0.2s;
 }
 
-#todo-list li:hover {
-  transform: scale(1.03);
-  background: #4fc3f7;
-}
-
 #todo-list li.completed {
   text-decoration: line-through;
   opacity: 0.6;
-  background: #b0bec5;
-}
-/* ===== Todo 取り消し（×）追加 ===== */
-#todo-list li.todo-item {
-  display: flex;
-  align-items: center;
 }
 
-.todo-text {
-  flex: 1;
-}
-
-.todo-delete {
-  width: auto;         
-  padding: 0 6px;
-  margin-left: auto;
-  margin-top: 0;
-  background: transparent;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  color: #555;
-}
-
-.todo-delete:hover {
-  color: #e53935;
-}
 /* =========================
    スマホ対応（600px以下）
    ========================= */
@@ -262,14 +232,12 @@ button {
     padding: 10px;
   }
 
-  /* 全体カード系を画面にフィットさせる */
   .card {
     max-width: 100%;
     padding: 16px;
     border-radius: 14px;
   }
 
-  /* タイトル文字を少し小さく */
   h1 {
     font-size: 1.5rem;
   }
@@ -278,36 +246,19 @@ button {
     font-size: 1.2rem;
   }
 
-  /* 入力欄とボタンを縦並びに */
-  .input-area {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .input-area input {
+  input {
     width: 100%;
-    font-size: 16px; /* iPhoneで拡大されない */
+    font-size: 16px;
     padding: 12px;
   }
 
-  .input-area button {
+  button {
     width: 100%;
     padding: 12px;
     font-size: 16px;
   }
-
-  /* やることリスト1行の高さを少し余裕持たせる */
-  .todo-item {
-    padding: 12px;
-    font-size: 15px;
-  }
-
-  /* ×ボタン（位置は絶対に変えない） */
-  .delete-btn {
-    font-size: 18px;
-    padding: 4px 8px;
-  }
 }
+
 .calendar-header {
   display: flex;
   justify-content: space-between;
