@@ -222,3 +222,28 @@ button {
   opacity: 0.6;
   background: #b0bec5;
 }
+/* ===== Todo 取り消し（×）追加 ===== */
+#todo-list li.todo-item {
+  display: flex;
+  align-items: center;
+}
+
+.todo-text {
+  flex: 1;
+}
+
+.todo-delete {
+  width: auto;         
+  padding: 0 6px;
+  margin-left: auto;
+  margin-top: 0;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: #555;
+}
+
+.todo-delete:hover {
+  color: #e53935;
+}
