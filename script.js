@@ -53,6 +53,8 @@ function loadData() {
 document.getElementById("to-records").onclick = () => {
   mainPage.style.display = "none";
   recordsPage.style.display = "block";
+  // スクロール位置をリセット
+  window.scrollTo(0, 0);
   renderWeekGraph();
   renderCalendar();
 };
@@ -60,6 +62,8 @@ document.getElementById("to-records").onclick = () => {
 document.getElementById("to-main").onclick = () => {
   recordsPage.style.display = "none";
   mainPage.style.display = "block";
+  // スクロール位置をリセット
+  window.scrollTo(0, 0);
 };
 
 // ===== 教科管理 =====
