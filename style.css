@@ -308,3 +308,15 @@ button {
     padding: 4px 8px;
   }
 }
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.calendar-header button {
+  width: auto;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
