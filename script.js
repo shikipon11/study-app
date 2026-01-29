@@ -39,8 +39,13 @@ function loadData() {
 
   level = data.level || 1;
   xp = data.xp || 0;
-  subjects = data.subjects?.length ? data.subjects : ["数学", "英語"];
-  subjectColors = Object.keys(data.subjectColors).length ? data.subjectColors : { 数学: "#42a5f5", 英語: "#ef5350" };
+  subjects = data.subjects || ["数学", "英語"];
+  subjectColors = data.subjectColors || {};
+
+  // 初期教科の色を保証
+  if (!subjectColors["数学"]) subjectColors["数学"] = "#42a5f5";
+  if (!subjectColors["英語"]) subjectColors["英語"] = "#ef5350";
+
   todosByDate = data.todosByDate || {};
 
   records = (data.records || []).map(r => ({
@@ -52,6 +57,16 @@ function loadData() {
 
   maxXp = calcMaxXp(level);
 }
+// 初期教科の色を保証する関数
+function ensureInitialSubjects() {
+  const initialSubjects = { 数学: "#42a5f5", 英語: "#ef5350" };
+
+  for (const [sub, color] of Object.entries(initialSubjects)) {
+    if (!subjects.includes(sub)) subjects.push(sub);
+    if (!subjectColors[sub]) subjectColors[sub] = color;
+  }
+}
+
 
 // ===== ページ切替 =====
 document.getElementById("to-records").onclick = () => {
@@ -217,16 +232,20 @@ function renderTodoList(subject) {
     };
 
     const delBtn = document.createElement("button");
-    delBtn.textContent = "×";
+    delBtn.textContent = "✕";
+    delBtn.style.width = "24px";
+    delBtn.style.height = "auto";
+    delBtn.style.padding = "0";
+    delBtn.style.marginLeft = "8px";        // テキストと少しスペースを空ける
     delBtn.style.background = "transparent";
     delBtn.style.border = "none";
     delBtn.style.color = "red";
     delBtn.style.cursor = "pointer";
-    delBtn.style.width = "24px";
-    delBtn.style.height = "24px";
-    delBtn.style.padding = "0";
+    delBtn.style.display = "flex";
+    delBtn.style.alignItems = "center";
+    delBtn.style.justifyContent = "center";
     delBtn.style.fontSize = "16px";
-    delBtn.style.lineHeight = "24px";
+
     delBtn.onclick = (e) => {
       e.stopPropagation();
       getTodayTodos(subject).splice(index, 1);
@@ -468,6 +487,7 @@ function sameDate(a, b) {
 
 // ===== 初期化 =====
 loadData();
+ensureInitialSubjects();
 updateSubjectSelect();
 updateStatus();
 updateProgressSummary();
