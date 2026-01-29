@@ -4,7 +4,7 @@ let xp = 0;
 let maxXp = 100;
 
 let subjects = ["数学", "英語"];
-let subjectColors = { 数学: "#42a5f5", 英語: "#ef5350" };
+let subjectColors = { 数学: "#42a5f5", 英語: "#ff69b4" };
 
 // 教科ごとのやることリスト（日付ごと）
 let todosByDate = {};
@@ -44,7 +44,7 @@ function loadData() {
 
   // 初期教科の色を保証
   if (!subjectColors["数学"]) subjectColors["数学"] = "#42a5f5";
-  if (!subjectColors["英語"]) subjectColors["英語"] = "#ef5350";
+  if (!subjectColors["英語"]) subjectColors["英語"] = "#ff69b4";
 
   todosByDate = data.todosByDate || {};
 
