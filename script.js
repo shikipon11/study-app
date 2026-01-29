@@ -16,10 +16,7 @@ let currentMonth = new Date().getMonth(); // 0〜11
 
 // ===== レベルごとの必要XP計算（ゆるカーブ） =====
 function calcMaxXp(level) {
-  return Math.min(
-    Math.floor(100 + Math.pow(level, 1.2) * 10),
-    1200
-  );
+  return Math.min(Math.floor(100 + Math.pow(level, 1.2) * 10), 1200);
 }
 
 // ===== DOM =====
@@ -28,6 +25,7 @@ const recordsPage = document.getElementById("records-page");
 const subjectSelect = document.getElementById("subject");
 const todoSubjectSelect = document.getElementById("todo-subject");
 const recordMsg = document.getElementById("record-msg");
+const deleteSubjectSelect = document.getElementById("delete-subject"); // ←削除用セレクト
 
 // ===== ローカルストレージ =====
 function saveData() {
@@ -41,8 +39,8 @@ function loadData() {
 
   level = data.level || 1;
   xp = data.xp || 0;
-  subjects = data.subjects || ["数学", "英語"];
-  subjectColors = data.subjectColors || {};
+  subjects = data.subjects?.length ? data.subjects : ["数学", "英語"];
+  subjectColors = Object.keys(data.subjectColors).length ? data.subjectColors : { 数学: "#42a5f5", 英語: "#ef5350" };
   todosByDate = data.todosByDate || {};
 
   records = (data.records || []).map(r => ({
@@ -83,18 +81,58 @@ function updateSubjectSelect() {
     subjectSelect.appendChild(new Option(s, s));
     todoSubjectSelect.appendChild(new Option(s, s));
   });
+  updateDeleteSubjectSelect();
+}
+
+function updateDeleteSubjectSelect() {
+  deleteSubjectSelect.innerHTML = "";
+   const placeholder = new Option("消したい教材", "");
+  placeholder.disabled = true; // 選択不可にする場合
+  placeholder.selected = true;  // 最初に表示
+  deleteSubjectSelect.appendChild(placeholder);
+  subjects.forEach(s => {
+    if (!["数学", "英語"].includes(s)) { // 初期教科は削除不可
+      deleteSubjectSelect.appendChild(new Option(s, s));
+    }
+  });
 }
 
 document.getElementById("add-subject").onclick = () => {
   const name = document.getElementById("new-subject").value.trim();
+  const color = document.getElementById("new-subject-color").value;
   if (!name || subjects.includes(name)) return;
 
   subjects.push(name);
-  subjectColors[name] =
-    "#" + Math.floor(Math.random() * 16777215).toString(16);
+  subjectColors[name] = color;
 
   updateSubjectSelect();
   document.getElementById("new-subject").value = "";
+  saveData();
+};
+
+// ===== 教科削除 =====
+document.getElementById("delete-subject-btn").onclick = () => {
+  const sub = deleteSubjectSelect.value;
+  if (!sub) return;
+
+  if (!confirm(`${sub} を本当に削除しますか？`)) return;
+
+  subjects = subjects.filter(s => s !== sub);
+  delete subjectColors[sub];
+
+  // TODOやrecordsからも削除
+  for (let date in todosByDate) {
+    delete todosByDate[date][sub];
+  }
+  records = records.filter(r => r.subject !== sub);
+
+  updateSubjectSelect();
+  updateStatus();
+  updateProgressSummary();
+  renderWeekGraph();
+  renderCalendar();
+  renderTodoList(todoSubjectSelect.value);
+
   saveData();
 };
 
@@ -163,24 +201,21 @@ function renderTodoList(subject) {
 
   getTodayTodos(subject).forEach((t, index) => {
     const li = document.createElement("li");
-    li.style.display = "flex";              // 横並び
-    li.style.justifyContent = "space-between"; // 左右に配置
-    li.style.alignItems = "center";         // 縦中央
+    li.style.display = "flex";
+    li.style.justifyContent = "space-between";
+    li.style.alignItems = "center";
 
-    // テキストノードを作成
     const textNode = document.createTextNode(t.text);
     li.appendChild(textNode);
 
     if (t.done) li.classList.add("completed");
 
-    // クリックで完了切替
     li.onclick = () => {
       t.done = !t.done;
       renderTodoList(subject);
       saveData();
     };
 
-    // 削除ボタン
     const delBtn = document.createElement("button");
     delBtn.textContent = "×";
     delBtn.style.background = "transparent";
@@ -193,7 +228,7 @@ function renderTodoList(subject) {
     delBtn.style.fontSize = "16px";
     delBtn.style.lineHeight = "24px";
     delBtn.onclick = (e) => {
-      e.stopPropagation(); // 完了切替と干渉させない
+      e.stopPropagation();
       getTodayTodos(subject).splice(index, 1);
       renderTodoList(subject);
       saveData();
@@ -243,12 +278,9 @@ function updateProgressSummary() {
     else break;
   }
 
-  let maxStreak = 0,
-    cur = 1;
+  let maxStreak = 0, cur = 1;
   for (let i = 1; i < days.length; i++) {
-    const diff =
-      (new Date(days[i]) - new Date(days[i - 1])) /
-      (1000 * 60 * 60 * 24);
+    const diff = (new Date(days[i]) - new Date(days[i - 1])) / (1000 * 60 * 60 * 24);
     cur = Math.floor(diff) === 1 ? cur + 1 : 1;
     maxStreak = Math.max(maxStreak, cur);
   }
@@ -266,8 +298,10 @@ function updateProgressSummary() {
 function renderWeekGraph() {
   const graph = document.getElementById("week-graph");
   const yAxis = document.getElementById("y-axis");
+  const legend = document.getElementById("graph-legend");
   graph.innerHTML = "";
   yAxis.innerHTML = "";
+  legend.innerHTML = "";
 
   const today = new Date();
   const sunday = new Date(today);
@@ -291,7 +325,7 @@ function renderWeekGraph() {
     yAxis.appendChild(div);
   });
 
-  ["日", "月", "火", "水", "木", "金", "土"].forEach((day, i) => {
+  ["日","月","火","水","木","金","土"].forEach((day, i) => {
     const d = new Date(sunday);
     d.setDate(sunday.getDate() + i);
 
@@ -313,9 +347,31 @@ function renderWeekGraph() {
     label.className = "day-label";
     label.textContent = day;
 
-    col.append(bar, label);
+    col.append(bar,label);
     graph.appendChild(col);
   });
+
+  // ===== 教科別凡例 =====
+  for (const sub of subjects) {
+    const item = document.createElement("div");
+    item.style.display = "flex";
+    item.style.alignItems = "center";
+    item.style.gap = "4px";
+
+    const colorBox = document.createElement("span");
+    colorBox.style.display = "inline-block";
+    colorBox.style.width = "16px";
+    colorBox.style.height = "16px";
+    colorBox.style.background = subjectColors[sub];
+    colorBox.style.borderRadius = "4px";
+
+    const label = document.createElement("span");
+    label.textContent = sub;
+
+    item.appendChild(colorBox);
+    item.appendChild(label);
+    legend.appendChild(item);
+  }
 }
 
 // ===== カレンダー =====

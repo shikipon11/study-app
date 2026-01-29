@@ -52,8 +52,16 @@
   </div>
 
   <!-- 教科追加 -->
-  <input type="text" id="new-subject" placeholder="新しい教科">
-  <button id="add-subject">教科追加</button>
+  <div id="add-subject-box" style="display:flex; align-items:center; gap:8px; margin-top:10px;">
+    <input type="text" id="new-subject" placeholder="新しい教材">
+  <input type="color" id="new-subject-color" value="#42a5f5">
+    </div>
+  <button id="add-subject">教材追加</button>
+<div id="delete-subject-section">
+  <select id="delete-subject"></select>
+  <button id="delete-subject-btn">削除</button>
+</div>
+
 
   <button id="to-records" class="sub-btn">📊 勉強記録を見る</button>
 </div>
@@ -65,6 +73,7 @@
     <div id="y-axis"></div>
     <div id="week-graph"></div>
   </div>
+   <div id="graph-legend" style="display:flex; justify-content:center; gap:10px; margin-top:10px;"></div>
   <div class="calendar-header">
     <button id="prev-month">◀</button>
     <span id="calendar-title"></span>
