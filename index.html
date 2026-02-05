@@ -1,25 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>勉強記録（テスト用）</title>
-    <link rel="stylesheet" href="./style.css">
-
-  </head>
-    
-  <body>
-  <html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>勉強記録</title>
-    <link rel="stylesheet" href="./style.css">
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -39,7 +18,6 @@
     <p><span id="xp">0</span> / <span id="max-xp">100</span> XP</p>
   </div>
 
-  <!-- 進捗 -->
   <div class="summary">
     <p>🔥 連続勉強日数：<span id="streak">0</span> 日</p>
     <p>🏆 最高記録：<span id="max-streak">0</span> 日</p>
@@ -64,43 +42,40 @@
   <!-- 教科追加 -->
   <div id="add-subject-box" style="display:flex; align-items:center; gap:8px; margin-top:10px;">
     <input type="text" id="new-subject" placeholder="新しい教材">
-  <input type="color" id="new-subject-color" value="#42a5f5">
-    </div>
+    <input type="color" id="new-subject-color" value="#42a5f5">
+  </div>
   <button id="add-subject">教材追加</button>
-<div id="delete-subject-section">
-  <select id="delete-subject"></select>
-  <button id="delete-subject-btn">削除</button>
-</div>
 
+  <div id="delete-subject-section">
+    <select id="delete-subject"></select>
+    <button id="delete-subject-btn">削除</button>
+  </div>
 
   <button id="to-records" class="sub-btn">📊 勉強記録を見る</button>
-    <button id="to-rival" class="sub-btn">🏆 ランキング</button>
+  <button id="to-rival" class="sub-btn">🏆 ランキング</button>
+
   <!-- 右上の使い方ボタン -->
-<button id="help-btn">❓</button>
+  <button id="help-btn">❓</button>
 
-<!-- モーダルパネル -->
-<div id="help-modal">
-  <div id="help-content">
-    <div id="slide-container">
-      <img src="https://i.postimg.cc/76rk4p5P/アプリの.png" alt="説明"
- class="slide active">
-      <img src="https://i.postimg.cc/7YtrhC5W/apurinoya2.png" class="slide">
-      <img src="https://i.postimg.cc/BvDrmMMd/apurino3.png" class="slide">
-      <img src="" alt="カミングスーン" class="slide">
+  <!-- モーダルパネル -->
+  <div id="help-modal">
+    <div id="help-content">
+      <div id="slide-container">
+        <img src="https://i.postimg.cc/76rk4p5P/アプリの.png" alt="説明" class="slide active">
+        <img src="https://i.postimg.cc/7YtrhC5W/apurinoya2.png" class="slide">
+        <img src="https://i.postimg.cc/BvDrmMMd/apurino3.png" class="slide">
+        <img src="" alt="カミングスーン" class="slide">
+      </div>
+
+      <div id="slide-controls">
+        <button id="prev-slide">◀</button>
+        <button id="next-slide">▶</button>
+      </div>
+
+      <button id="close-help">閉じる</button>
     </div>
-
-    <div id="slide-controls">
-      <button id="prev-slide">◀</button>
-      <button id="next-slide">▶</button>
-    </div>
-
-    <button id="close-help">閉じる</button>
   </div>
 </div>
-
-
-</div>
- 
 
 <!-- ===== 記録ページ ===== -->
 <div id="records-page" class="card" style="display:none;">
@@ -109,7 +84,8 @@
     <div id="y-axis"></div>
     <div id="week-graph"></div>
   </div>
-   <div id="graph-legend" style="display:flex; justify-content:center; gap:10px; margin-top:10px;"></div>
+  <div id="graph-legend" style="display:flex; justify-content:center; gap:10px; margin-top:10px;"></div>
+
   <div class="calendar-header">
     <button id="prev-month">◀</button>
     <span id="calendar-title"></span>
@@ -124,35 +100,18 @@
 
   <button id="to-main" class="sub-btn">⬅ 戻る</button>
 </div>
+
 <!-- ===== ライバル部屋ページ ===== -->
 <div id="rival-page" class="card" style="display:none;">
-
   <h2>🏆 ランキング</h2>
-  
   <p id="roomMsg" class="msg"></p>
-
-  <input id="roomInput"type="number"placeholder="部屋番号（4桁）"maxlength="4"/>
-  
+  <input id="roomInput" type="number" placeholder="部屋番号（4桁）" maxlength="4"/>
   <input type="text" id="nameInput" placeholder="名前">
-
   <button id="joinRoomBtn">部屋に入る</button>
-
   <div id="rankingBox"></div>
-
   <button id="to-main-from-rival" class="sub-btn">⬅ 戻る</button>
-
 </div>
 
 <script src="script.js"></script>
 </body>
-</html>
-    <script  src="./script.js"></script>
-
-  </body>
-  
-</html>
-    <script type="module" src="./script.js"></script>
-
-  </body>
-  
 </html>
