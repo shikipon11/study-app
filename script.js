@@ -267,6 +267,27 @@ function updateRanking(data) {
     `;
   });
 }
+function initialSyncRecords() {
+  const roomId = localStorage.getItem("currentRoom");
+  const userName = localStorage.getItem("userName");
+  if (!roomId || !userName) return;
+
+  // recordsをFirebase用に整形
+  const userRecords = {};
+  records.forEach(r => {
+    userRecords[r.id] = {
+      subject: r.subject,
+      time: r.time,
+      date: r.date.toISOString()
+    };
+  });
+
+  // XPと一緒にセット
+  set(ref(db, "rooms/" + roomId + "/" + userName), {
+    xp: xp,
+    records: userRecords
+  });
+}
 // ===== ページ切替 =====
 document.getElementById("to-records").onclick = () => {
   mainPage.style.display = "none";
