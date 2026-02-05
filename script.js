@@ -204,6 +204,7 @@ function syncXPToRoom() {
   });
 
   set(ref(db, "rooms/" + roomId + "/" + userName), {
+    xp: xp,
     totalXp: totalXp,
     records: userRecords
   });
@@ -285,6 +286,7 @@ function initialSyncRecords() {
   // XPと一緒にセット
   set(ref(db, "rooms/" + roomId + "/" + userName), {
     xp: xp,
+    totalXp: totalXp,
     records: userRecords
   });
 }
@@ -762,6 +764,7 @@ nextBtn.onclick = () => {
 // ===== 初期化 =====
 loadData();
 ensureInitialSubjects();
+recalcStatusFromRecords();
 fixTotalXpIfNeeded();
 updateSubjectSelect();
 updateStatus();
