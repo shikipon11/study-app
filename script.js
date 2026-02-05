@@ -746,3 +746,4 @@ updateSubjectSelect();
 updateStatus();
 updateProgressSummary();
 renderTodoList(todoSubjectSelect.value);
+initialSyncRecords();
