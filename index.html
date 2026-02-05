@@ -3,6 +3,16 @@
 
   <head>
     <meta charset="UTF-8">
+    <title>勉強記録（テスト用）</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
     <title>勉強記録</title>
     <link rel="stylesheet" href="./style.css">
 
@@ -64,7 +74,33 @@
 
 
   <button id="to-records" class="sub-btn">📊 勉強記録を見る</button>
+    <button id="to-rival" class="sub-btn">🏆 ランキング</button>
+  <!-- 右上の使い方ボタン -->
+<button id="help-btn">❓</button>
+
+<!-- モーダルパネル -->
+<div id="help-modal">
+  <div id="help-content">
+    <div id="slide-container">
+      <img src="https://i.postimg.cc/76rk4p5P/アプリの.png" alt="説明"
+ class="slide active">
+      <img src="https://i.postimg.cc/7YtrhC5W/apurinoya2.png" class="slide">
+      <img src="https://i.postimg.cc/BvDrmMMd/apurino3.png" class="slide">
+      <img src="" alt="カミングスーン" class="slide">
+    </div>
+
+    <div id="slide-controls">
+      <button id="prev-slide">◀</button>
+      <button id="next-slide">▶</button>
+    </div>
+
+    <button id="close-help">閉じる</button>
+  </div>
 </div>
+
+
+</div>
+ 
 
 <!-- ===== 記録ページ ===== -->
 <div id="records-page" class="card" style="display:none;">
@@ -88,11 +124,34 @@
 
   <button id="to-main" class="sub-btn">⬅ 戻る</button>
 </div>
+<!-- ===== ライバル部屋ページ ===== -->
+<div id="rival-page" class="card" style="display:none;">
+
+  <h2>🏆 ランキング</h2>
+  
+  <p id="roomMsg" class="msg"></p>
+
+  <input id="roomInput"type="number"placeholder="部屋番号（4桁）"maxlength="4"/>
+  
+  <input type="text" id="nameInput" placeholder="名前">
+
+  <button id="joinRoomBtn">部屋に入る</button>
+
+  <div id="rankingBox"></div>
+
+  <button id="to-main-from-rival" class="sub-btn">⬅ 戻る</button>
+
+</div>
 
 <script src="script.js"></script>
 </body>
 </html>
     <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
+    <script type="module" src="./script.js"></script>
 
   </body>
   
