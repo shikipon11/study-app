@@ -203,7 +203,7 @@ function syncXPToRoom() {
   });
 
   set(ref(db, "rooms/" + roomId + "/" + userName), {
-    xp: xp,
+    totalXp: totalXp,
     records: userRecords });
 
 }
@@ -236,7 +236,7 @@ function updateRanking(data) {
     let value = 0;
 
     if (rankingMode === "total") {
-      value = userData.xp || 0;
+      value = userData.totalXp || 0;
     } else if (rankingMode === "today") {
       const today = new Date();
       value = Object.values(userData.records || {}).
