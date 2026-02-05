@@ -12,7 +12,6 @@ const firebaseConfig = {
   appId: "1:830965015838:web:acc3f28ca9453289ff150f" };
 
 
-
 // ===== 基本データ =====
 let level = 1;
 let xp = 0;
