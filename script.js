@@ -12,6 +12,7 @@ const firebaseConfig = {
   appId: "1:830965015838:web:acc3f28ca9453289ff150f" };
 
 
+
 // ===== 基本データ =====
 let level = 1;
 let xp = 0;
@@ -166,7 +167,7 @@ function refreshRanking() {
   if (!roomId) return;
 
   const roomRef = ref(db, "rooms/" + roomId);
-  onValue(roomRef, snapshot => {
+  onValue(roomRef, (snapshot) => {
     const data = snapshot.val();
     updateRanking(data);
   });
@@ -198,14 +199,14 @@ function syncXPToRoom() {
     userRecords[r.id] = {
       subject: r.subject,
       time: r.time,
-      date: r.date.toISOString() };
-
+      date: r.date.toISOString()
+    };
   });
 
   set(ref(db, "rooms/" + roomId + "/" + userName), {
     totalXp: totalXp,
-    records: userRecords });
-
+    records: userRecords
+  });
 }
 const buttons = document.querySelectorAll("#ranking-buttons button");
 buttons.forEach(btn => {
@@ -218,7 +219,7 @@ buttons.forEach(btn => {
 // 部屋を監視
 function watchRoom(roomId) {
   const roomRef = ref(db, "rooms/" + roomId);
-  onValue(roomRef, snapshot => {
+  onValue(roomRef, (snapshot) => {
     const data = snapshot.val();
     updateRanking(data);
   });
@@ -239,16 +240,16 @@ function updateRanking(data) {
       value = userData.totalXp || 0;
     } else if (rankingMode === "today") {
       const today = new Date();
-      value = Object.values(userData.records || {}).
-      filter(r => sameDate(new Date(r.date), today)).
-      reduce((sum, r) => sum + r.time, 0);
+      value = Object.values(userData.records || {})
+        .filter(r => sameDate(new Date(r.date), today))
+        .reduce((sum, r) => sum + r.time, 0);
     } else if (rankingMode === "week") {
       const today = new Date();
       const sunday = new Date(today);
       sunday.setDate(today.getDate() - today.getDay());
-      value = Object.values(userData.records || {}).
-      filter(r => new Date(r.date) >= sunday).
-      reduce((sum, r) => sum + r.time, 0);
+      value = Object.values(userData.records || {})
+        .filter(r => new Date(r.date) >= sunday)
+        .reduce((sum, r) => sum + r.time, 0);
     }
 
     return { name, value };
