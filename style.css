@@ -496,6 +496,36 @@ button {
   font-weight: 700;
   color: #42a5f5;
 }
+/* ===== タイマー ===== */
+#timer-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+#timer-content {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 16px;
+  width: 260px;
+  text-align: center;
+}
+
+#timer-display {
+  font-size: 36px;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+#timer-button {
+  background: linear-gradient(135deg, #00c853, #64dd17);
+  color: white;
+}
 
 
 /* =========================
