@@ -435,7 +435,7 @@ button {
 #ranking-buttons {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  padding : 12px ;
 }
 
 #ranking-buttons button {
