@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>勉強記録</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>勉強記録</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>勉強記録</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>📚 勉強記録</h1>
+
+<!-- ===== メインページ ===== -->
+<div id="main-page" class="card">
+  <div class="status">
+    <p>Lv <span id="level">1</span></p>
+    <div id="xp-box"><div id="xp-bar"></div></div>
+    <p><span id="xp">0</span> / <span id="max-xp">100</span> XP</p>
+  </div>
+
+  <div class="summary">
+    <p>🔥 連続勉強日数：<span id="streak">0</span> 日</p>
+    <p>🏆 最高記録：<span id="max-streak">0</span> 日</p>
+    <p>⏰ 昨日の勉強：<span id="yesterday-time">0</span> 分</p>
+  </div>
+
+  <!-- 勉強入力 -->
+  <select id="subject"></select>
+  <input type="number" id="study-time" placeholder="勉強時間（分）">
+  <button id="study-button">勉強した！</button>
+  <p id="record-msg" class="msg"></p>
+  <button id="timer-button">⏱ タイマーで記録</button>
+
+  <!-- Todo -->
+  <div class="todo-box">
+    <h3>📌 今日のやること</h3>
+    <ul id="todo-list"></ul>
+    <select id="todo-subject"></select>
+    <input type="text" id="new-todo" placeholder="やることを追加">
+    <button id="add-todo">追加</button>
+  </div>
+
+  <!-- 教科追加 -->
+  <div id="add-subject-box" style="display:flex; align-items:center; gap:8px; margin-top:10px;">
+    <input type="text" id="new-subject" placeholder="新しい教材">
+    <input type="color" id="new-subject-color" value="#42a5f5">
+  </div>
+  <button id="add-subject">教材追加</button>
+
+  <div id="delete-subject-section">
+    <select id="delete-subject"></select>
+    <button id="delete-subject-btn">削除</button>
+  </div>
+
+  <button id="to-records" class="sub-btn">📊 勉強記録を見る</button>
+  <button id="to-rival" class="sub-btn">🏆 ランキング</button>
+
+  <!-- 右上の使い方ボタン -->
+  <button id="help-btn">❓</button>
+
+  <!-- モーダルパネル -->
+  <div id="help-modal">
+    <div id="help-content">
+      <div id="slide-container">
+        <img src="https://i.postimg.cc/76rk4p5P/アプリの.png" alt="説明" class="slide active">
+        <img src="https://i.postimg.cc/7YtrhC5W/apurinoya2.png" class="slide">
+        <img src="https://i.postimg.cc/wj7tCQQq/アプリの4.png" class="slide">
+        <img src="https://i.postimg.cc/XvHPD3LK/apurino5.png" class="slide">
+        <img src="" alt="カミングスーン" class="slide">
+      </div>
+
+      <div id="slide-controls">
+        <button id="prev-slide">◀</button>
+        <button id="next-slide">▶</button>
+      </div>
+
+      <button id="close-help">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 記録ページ ===== -->
+<div id="records-page" class="card" style="display:none;">
+  <h2>📊 今週の勉強</h2>
+  <div id="graph-wrapper">
+    <div id="y-axis"></div>
+    <div id="week-graph"></div>
+  </div>
+  <div id="graph-legend" style="display:flex; justify-content:center; gap:10px; margin-top:10px;"></div>
+
+  <div class="calendar-header">
+    <button id="prev-month">◀</button>
+    <span id="calendar-title"></span>
+    <button id="next-month">▶</button>
+  </div>
+
+  <h2>🗓 カレンダー</h2>
+  <div id="calendar"></div>
+
+  <h3 id="detail-title">日付を選択</h3>
+  <ul id="day-detail" class="detail-list"></ul>
+
+  <button id="to-main" class="sub-btn">⬅ 戻る</button>
+</div>
+
+<!-- ===== ライバル部屋ページ ===== -->
+<div id="rival-page" class="card" style="display:none;">
+  <h2>🏆 ランキング</h2>
+  <p id="roomMsg" class="msg"></p>
+  <input id="roomInput" type="number" placeholder="部屋番号（4桁）" maxlength="4"/>
+  <input type="text" id="nameInput" placeholder="名前">
+  <button id="joinRoomBtn">部屋に入る</button>
+  <div>
+  <button id="rank-today">今日</button>
+  <button id="rank-week">今週</button>
+  <button id="rank-total">累計XP</button>
+</div>
+  <div id="rankingBox"></div>
+  <button id="to-main-from-rival" class="sub-btn">⬅ 戻る</button>
+</div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
+    <script type="module" src="./script.js"></script>
+
+  </body>
+  <!-- ===== タイマーモーダル ===== -->
+<div id="timer-modal">
+  <div id="timer-content">
+    <h3 id="timer-subject">勉強中</h3>
+    <div id="timer-display">00:00</div>
+    <button id="stop-timer">停止して記録</button>
+    <button id="cancel-timer">キャンセル</button>
+  </div>
+</div>
+
+  
+</html>
+    <script type="module" src="./script.js"></script>
+
+  </body>
+  
+</html>
