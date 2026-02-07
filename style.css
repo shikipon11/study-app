@@ -1,4 +1,4 @@
-/* ===== 全体 ===== */
+./* ===== 全体 ===== */
 * {
   box-sizing: border-box;
 }
@@ -435,7 +435,7 @@ button {
 #ranking-buttons {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  padding: 12px;
 }
 
 #ranking-buttons button {
@@ -526,7 +526,10 @@ button {
   background: linear-gradient(135deg, #00c853, #64dd17);
   color: white;
 }
-
+#leave-room {
+  background: linear-gradient(135deg, #b71c1c, #e53935);
+  color: #fff;
+}
 
 /* =========================
    スマホ対応（600px以下）
@@ -604,4 +607,15 @@ button {
 
 .rank-xp {
   color: #ff9800;
+}calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.calendar-header button {
+  width: auto;
+  padding: 6px 10px;
+  border-radius: 8px;
 }

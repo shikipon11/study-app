@@ -20,7 +20,6 @@
   </head>
     
   <body>
-  <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -51,7 +50,6 @@
   <input type="number" id="study-time" placeholder="勉強時間（分）">
   <button id="study-button">勉強した！</button>
   <p id="record-msg" class="msg"></p>
-  <button id="timer-button">⏱ タイマーで記録</button>
 
   <!-- Todo -->
   <div class="todo-box">
@@ -132,12 +130,13 @@
   <input id="roomInput" type="number" placeholder="部屋番号（4桁）" maxlength="4"/>
   <input type="text" id="nameInput" placeholder="名前">
   <button id="joinRoomBtn">部屋に入る</button>
-  <div>
+  <div id="ranking-buttons">
   <button id="rank-today">今日</button>
   <button id="rank-week">今週</button>
   <button id="rank-total">累計XP</button>
 </div>
   <div id="rankingBox"></div>
+  <button id="leave-room" class="sub-btn">🚪 部屋を退出</button>
   <button id="to-main-from-rival" class="sub-btn">⬅ 戻る</button>
 </div>
 
@@ -147,16 +146,6 @@
     <script type="module" src="./script.js"></script>
 
   </body>
-  <!-- ===== タイマーモーダル ===== -->
-<div id="timer-modal">
-  <div id="timer-content">
-    <h3 id="timer-subject">勉強中</h3>
-    <div id="timer-display">00:00</div>
-    <button id="stop-timer">停止して記録</button>
-    <button id="cancel-timer">キャンセル</button>
-  </div>
-</div>
-
   
 </html>
     <script type="module" src="./script.js"></script>

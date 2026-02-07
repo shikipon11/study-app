@@ -1,11 +1,5 @@
-import {
-initializeApp } from
-
-"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
-getDatabase, ref, set, get, onValue } from
-
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, set, get, onValue } from
 "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -25,12 +19,7 @@ let xp = 0;
 let maxXp = 100;
 let totalXp = 0;
 let subjects = ["数学", "英語"];
-let subjectColors = {
-  数学: "#42a5f5",
-  英語: "#ff69b4" };
-
-let timerStart = null;
-let timerInterval = null;
+let subjectColors = { 数学: "#42a5f5", 英語: "#ff69b4" };
 let userId = localStorage.getItem("userId");
 if (!userId) {
   userId = crypto.randomUUID();
@@ -39,7 +28,8 @@ if (!userId) {
 // 教科ごとのやることリスト（日付ごと）
 let todosByDate = {};
 let records = [];
-
+//
+let roomUnsubscribe = null;
 // ===== カレンダー表示用 =====
 let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth(); // 0〜11
@@ -62,18 +52,11 @@ const db = getDatabase(app);
 const roomInput = document.getElementById("roomInput");
 const nameInput = document.getElementById("nameInput");
 const joinBtn = document.getElementById("joinRoomBtn");
-const timerBtn = document.getElementById("timer-button");
-const timerModal = document.getElementById("timer-modal");
-const timerDisplay = document.getElementById("timer-display");
-const timerSubject = document.getElementById("timer-subject");
-const stopTimerBtn = document.getElementById("stop-timer");
-const cancelTimerBtn = document.getElementById("cancel-timer");
+const leaveRoomBtn = document.getElementById("leave-room");
 
 // ===== ローカルストレージ =====
 function saveData() {
-  const data = {
-    level, xp, totalXp, subjects, subjectColors, records, todosByDate };
-
+  const data = { level, xp, totalXp, subjects, subjectColors, records, todosByDate };
   localStorage.setItem("studyGameData", JSON.stringify(data));
 }
 
@@ -100,22 +83,17 @@ function loadData() {
     date: new Date(r.date) }));
 
 
-
   maxXp = calcMaxXp(level);
 }
 // 初期教科の色を保証する関数
 function ensureInitialSubjects() {
-  const initialSubjects = {
-    数学: "#42a5f5",
-    英語: "#ef5350" };
-
+  const initialSubjects = { 数学: "#42a5f5", 英語: "#ef5350" };
 
   for (const [sub, color] of Object.entries(initialSubjects)) {
     if (!subjects.includes(sub)) subjects.push(sub);
     if (!subjectColors[sub]) subjectColors[sub] = color;
   }
 }
-
 function fixTotalXpIfNeeded() {
   if (totalXp > 0) return; // すでにあるなら何もしない
   if (!records || records.length === 0) return;
@@ -124,7 +102,7 @@ function fixTotalXpIfNeeded() {
   saveData();
 }
 
-//=========部屋=========
+//===ライバル部屋===
 function showRoomMessage(text, type = "success") {
   const msg = document.getElementById("roomMsg");
   msg.textContent = text;
@@ -168,7 +146,7 @@ joinBtn.onclick = async () => {
     const data = snapshot.val();
 
     // 同じ名前が存在するかチェック
-    // 同じ名前の他人がいるかチェック
+    // 同じ名前の「他人」がいるかチェック
     if (data) {
       const sameNameUser = Object.entries(data).find(
       ([uid, user]) => user.name === userName && uid !== userId);
@@ -237,15 +215,11 @@ function syncXPToRoom() {
       time: r.time,
       date: r.date.toISOString() };
 
-
   });
 
   set(ref(db, "rooms/" + roomId + "/" + userId), {
-    name: userName,
-    xp,
-    totalXp,
+    name: userName, xp, totalXp,
     records: userRecords });
-
 
 
 }
@@ -260,11 +234,50 @@ buttons.forEach(btn => {
 // 部屋を監視
 function watchRoom(roomId) {
   const roomRef = ref(db, "rooms/" + roomId);
-  onValue(roomRef, snapshot => {
+
+  // 既に監視してたら解除
+  if (roomUnsubscribe) {
+    roomUnsubscribe();
+  }
+
+  roomUnsubscribe = onValue(roomRef, snapshot => {
     const data = snapshot.val();
     updateRanking(data);
   });
 }
+leaveRoomBtn.onclick = async () => {
+  if (!confirm("本当に部屋を退出しますか？")) return;
+
+  const roomId = localStorage.getItem("currentRoom");
+  const uid = userId;
+
+  // 監視解除
+  if (roomUnsubscribe) {
+    roomUnsubscribe();
+    roomUnsubscribe = null;
+  }
+
+  // Firebase上の自分のデータ削除
+  if (roomId) {
+    await set(ref(db, "rooms/" + roomId + "/" + uid), null);
+  }
+
+  // ローカル情報削除
+  localStorage.removeItem("currentRoom");
+  localStorage.removeItem("userName");
+
+  // UIリセット
+  document.getElementById("rankingBox").innerHTML = "";
+  document.getElementById("roomInput").value = "";
+  document.getElementById("nameInput").value = "";
+
+  showRoomMessage("部屋を退出しました");
+
+  // メイン画面へ戻る
+  rivalPage.style.display = "none";
+  mainPage.style.display = "block";
+};
+
 
 // ランキング更新
 function updateRanking(data) {
@@ -297,15 +310,13 @@ function updateRanking(data) {
       name: userData.name || "no-name",
       value };
 
-
   });
 
   users.sort((a, b) => b.value - a.value);
 
   rankingBox.innerHTML = "";
   users.forEach((user, index) => {
-    rankingBox.innerHTML +=
-    `
+    rankingBox.innerHTML += `
       <div class="rank-item">
         <span class="rank-name">${index + 1}. ${user.name}</span>
         <span class="rank-xp">${user.value}${rankingMode === "total" ? " XP" : "分"}</span>
@@ -313,7 +324,6 @@ function updateRanking(data) {
     `;
   });
 }
-
 function initialSyncRecords() {
   const roomId = localStorage.getItem("currentRoom");
   const userName = localStorage.getItem("userName");
@@ -327,7 +337,6 @@ function initialSyncRecords() {
       time: r.time,
       date: r.date.toISOString() };
 
-
   });
 
   // XPと一緒にセット
@@ -338,71 +347,7 @@ function initialSyncRecords() {
     records: userRecords });
 
 
-
 }
-//===========タイマー==============
-function updateTimer() {
-  const elapsed = Date.now() - timerStart;
-  const sec = Math.floor(elapsed / 1000);
-  const m = String(Math.floor(sec / 60)).padStart(2, "0");
-  const s = String(sec % 60).padStart(2, "0");
-  timerDisplay.textContent = `${m}:${s}`;
-}
-timerBtn.onclick = () => {
-  const subject = subjectSelect.value;
-  timerSubject.textContent = `${subject} 勉強中`;
-
-  timerStart = Date.now();
-  localStorage.setItem("timerStart", timerStart);
-
-  timerDisplay.textContent = "00:00";
-  timerModal.style.display = "flex";
-
-  timerInterval = setInterval(updateTimer, 1000);
-};
-stopTimerBtn.onclick = () => {
-  clearInterval(timerInterval);
-
-  const elapsedMs = Date.now() - timerStart;
-  let minutes = Math.ceil(elapsedMs / 60000);
-
-  if (minutes < 1) minutes = 1;
-
-  if (!confirm(`${minutes}分として記録しますか？`)) {
-    timerModal.style.display = "none";
-    return;
-  }
-
-  records.push({
-    id: Date.now(),
-    subject: subjectSelect.value,
-    time: minutes,
-    date: new Date() });
-
-
-  xp += minutes;
-  totalXp += minutes;
-  while (xp >= maxXp) {
-    xp -= maxXp;
-    level++;
-    maxXp = calcMaxXp(level);
-  }
-
-  updateStatus();
-  updateProgressSummary();
-  saveData();
-  syncXPToRoom();
-  refreshRanking();
-
-  timerModal.style.display = "none";
-  localStorage.removeItem("timerStart");
-};
-cancelTimerBtn.onclick = () => {
-  clearInterval(timerInterval);
-  timerModal.style.display = "none";
-  localStorage.removeItem("timerStart");
-};
-
 // ===== ページ切替 =====
 document.getElementById("to-records").onclick = () => {
   mainPage.style.display = "none";
@@ -500,7 +445,6 @@ document.getElementById("study-button").onclick = () => {
     date: new Date() });
 
 
-
   xp += time;
   totalXp += time;
   while (xp >= maxXp) {
@@ -542,15 +486,13 @@ function recalcStatusFromRecords() {
 }
 
 // ===== Todo（日付リセット） =====
-function getTodayTodos(subject) {
-  var _todosByDate$today;
+function getTodayTodos(subject) {var _todosByDate$today;
   const today = new Date().toISOString().split("T")[0];
   if (!todosByDate[today]) {
     todosByDate[today] = {};
     subjects.forEach(s => todosByDate[today][s] = []);
   }
-  return (_todosByDate$today = todosByDate[today])[subject] || (
-  _todosByDate$today[subject] = []);
+  return (_todosByDate$today = todosByDate[today])[subject] || (_todosByDate$today[subject] = []);
 }
 
 function renderTodoList(subject) {
@@ -605,9 +547,7 @@ document.getElementById("add-todo").onclick = () => {
   const text = document.getElementById("new-todo").value.trim();
   if (!text) return;
 
-  getTodayTodos(todoSubjectSelect.value).push({
-    text, done: false });
-
+  getTodayTodos(todoSubjectSelect.value).push({ text, done: false });
   document.getElementById("new-todo").value = "";
   renderTodoList(todoSubjectSelect.value);
   saveData();
@@ -639,15 +579,12 @@ function updateProgressSummary() {
   for (let i = days.length - 1; i >= 0; i--) {
     const diff = (today - new Date(days[i])) / (1000 * 60 * 60 * 24);
     if (Math.floor(diff) === streak) streak++;else
-
     break;
   }
 
-  let maxStreak = 0,
-  cur = 1;
+  let maxStreak = 0,cur = 1;
   for (let i = 1; i < days.length; i++) {
-    const diff = (new Date(days[i]) - new Date(days[i - 1])) / (1000 * 60 * 60 *
-    24);
+    const diff = (new Date(days[i]) - new Date(days[i - 1])) / (1000 * 60 * 60 * 24);
     cur = Math.floor(diff) === 1 ? cur + 1 : 1;
     maxStreak = Math.max(maxStreak, cur);
   }
@@ -679,7 +616,9 @@ function renderWeekGraph() {
     const d = new Date(sunday);
     d.setDate(sunday.getDate() + i);
     totals.push(
-    records.filter(r => sameDate(r.date, d)).reduce((a, b) => a + b.time, 0));
+    records.
+    filter(r => sameDate(r.date, d)).
+    reduce((a, b) => a + b.time, 0));
 
   }
 
@@ -890,9 +829,3 @@ updateStatus();
 updateProgressSummary();
 renderTodoList(todoSubjectSelect.value);
 initialSyncRecords();
-const savedTimer = localStorage.getItem("timerStart");
-if (savedTimer) {
-  timerStart = Number(savedTimer);
-  timerModal.style.display = "flex";
-  timerInterval = setInterval(updateTimer, 1000);
-}
