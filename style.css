@@ -1,0 +1,656 @@
+./* ===== 全体 ===== */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #87cefa, #1e90ff);
+  color: #fff;
+  padding: 20px;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+h1, h2, h3 {
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* ===== カード ===== */
+#main-page, #records-page,#rival-page {
+  background: linear-gradient(145deg, #ffffff, #e0e0e0);
+  color: #000;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ===== XPバー ===== */
+#xp-box {
+  width: 100%;
+  height: 20px;
+  background: #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+#xp-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ffeb3b, #ff9800);
+  transition: width 0.3s ease;
+  border-radius: 12px;
+}
+
+/* ===== 入力系 ===== */
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: 2px solid #aaa;
+  background-color: #fff;
+  color: #000;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* ===== ボタン ===== */
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+/* 勉強ボタン */
+#study-button {
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  color: #fff;
+}
+#study-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 教科追加ボタン */
+#add-subject {
+  background: linear-gradient(135deg, #ff5722, #ff7043);
+  color: #fff;
+}
+#add-subject:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* やること追加ボタン */
+#add-todo {
+  background: linear-gradient(135deg, #2196f3, #03a9f4);
+  color: #fff;
+}
+#add-todo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 記録ページ戻るボタン */
+#to-main, #to-records,#to-rival,#to-main-from-rival {
+  background: linear-gradient(135deg, #9c27b0, #e91e63);
+  color: #fff;
+}
+#to-main:hover, #to-records:hover #to-rival:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* ===== グラフ ===== */
+#graph-wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 20px;
+}
+
+#y-axis {
+  width: 40px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #555;
+}
+
+#week-graph {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  width: 100%;
+  height: 180px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #f0f0f0;
+}
+
+/* 1日分 */
+.day-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* 棒 */
+.bar {
+  width: 100%;
+  height: 140px;
+  border-radius: 6px;
+  background: #ddd;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+}
+
+/* 教科セグメント */
+.segment {
+  width: 100%;
+}
+
+/* 曜日 */
+.day-label {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #555;
+}
+
+/* ===== カレンダー ===== */
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.calendar-day {
+  padding: 8px;
+  background: #c5cae9;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.calendar-day:hover {
+  background: #7986cb;
+  transform: scale(1.05);
+}
+
+.calendar-day.has-record {
+  background: linear-gradient(135deg, #ffeb3b, #ffc107);
+  color: #000;
+}
+
+/* ===== 日付詳細 ===== */
+#day-detail {
+  margin-top: 10px;
+  padding-left: 16px;
+}
+
+/* ===== やることリスト ===== */
+#todo-list {
+  margin-top: 10px;
+  padding-left: 16px;
+}
+
+#todo-list li {
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background: #81d4fa;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.2s;
+}
+
+#todo-list li.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+#graph-wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 20px;
+  /* 横並びのまま */
+}
+
+#graph-legend {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px; /* グラフとの間隔 */
+}
+#new-subject-color {
+  width: 40px;       /* 横幅 */
+  height: 40px;      /* 高さ */
+  border: 2px solid #fff;   /* 枠線 */
+  border-radius: 8px;       /* 丸み */
+  padding: 0;
+  cursor: pointer;
+}
+/* 右上ボタン */
+#help-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: linear-gradient(135deg, #ff9800, #ffc107);
+  color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* モーダル全体 */
+#help-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7); /* 背景を暗く */
+  display: none; /* 初期は非表示 */
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* モーダル内容（A4比率） */
+#help-content {
+  background: #fff;
+  color: #000;
+  width: 90%;
+  max-width: 800px; /* A4幅に近い */
+  aspect-ratio: 210 / 297; /* A4比率 */
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* スライド画像 */
+#slide-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#slide-container .slide {
+  display: none;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#slide-container .slide.active {
+  display: block;
+}
+
+/* スライドボタン */
+#slide-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+#slide-controls button {
+  flex: 1;
+  margin: 0 8px;
+  padding: 8px 0;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #2196f3, #03a9f4);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 閉じるボタン */
+#close-help {
+  margin-top: 10px;
+  width: 100%;
+  background: linear-gradient(135deg, #9c27b0, #e91e63);
+  color: #fff;
+  border-radius: 12px;
+  border: none;
+  padding: 8px 0;
+  cursor: pointer;
+}
+/* モーダル全体 */
+#help-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 10px; /* 画面端に少し余白 */
+  box-sizing: border-box;
+}
+
+/* モーダル内容（画面に収まる大きさ） */
+#help-content {
+  background: #fff;
+  color: #000;
+  width: 90%;
+  max-width: 400px;   /* 画面に収まる最大幅 */
+  aspect-ratio: 210 / 297; /* A4比率 */
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* スライド画像 */
+#slide-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#slide-container .slide {
+  display: none;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#slide-container .slide.active {
+  display: block;
+}
+
+/* スライドボタン */
+#slide-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+#slide-controls button {
+  flex: 1;
+  margin: 0 8px;
+  padding: 8px 0;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #2196f3, #03a9f4);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 閉じるボタン */
+#close-help {
+  margin-top: 10px;
+  width: 100%;
+  background: linear-gradient(135deg, #9c27b0, #e91e63);
+  color: #fff;
+  border-radius: 12px;
+  border: none;
+  padding: 8px 0;
+  cursor: pointer;
+}
+/* ランキング全体 */
+#ranking-container {
+  width: 320px;
+  margin: 20px auto;
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ボタングループ */
+#ranking-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+#ranking-buttons button {
+  flex: 1;
+  margin: 0 4px;
+  padding: 8px 0;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+#ranking-buttons button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* ボタンごとの色 */
+#rank-today {
+  background: #42a5f5; /* 青 */
+}
+#rank-week {
+  background: #66bb6a; /* 緑 */
+}
+#rank-total {
+  background: #ffa726; /* オレンジ */
+}
+
+/* アクティブ時に少し濃く */
+#ranking-buttons button.active {
+  filter: brightness(1.2);
+}
+
+/* ランキングリスト */
+#rankingBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rank-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-size: 14px;
+}
+
+.rank-item .rank-name {
+  font-weight: 600;
+}
+
+.rank-item .rank-xp {
+  font-weight: 700;
+  color: #42a5f5;
+}
+/* ===== タイマー ===== */
+#timer-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+#timer-content {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 16px;
+  width: 260px;
+  text-align: center;
+}
+
+#timer-display {
+  font-size: 36px;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+#timer-button {
+  background: linear-gradient(135deg, #00c853, #64dd17);
+  color: white;
+}
+#leave-room {
+  background: linear-gradient(135deg, #b71c1c, #e53935);
+  color: #fff;
+}
+/* ===== タイマー ===== */
+#timer-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+#timer-content {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 16px;
+  width: 260px;
+  text-align: center;
+}
+
+#timer-display {
+  font-size: 36px;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+#timer-button {
+  background: linear-gradient(135deg, #00c853, #64dd17);
+  color: white;
+}
+#timer-phase {
+	margin-top: 8px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+/* =========================
+   スマホ対応（600px以下）
+   ========================= */
+@media (max-width: 600px) {
+　  #help-content {
+    width: 95%;
+  }
+  body {
+    padding: 10px;
+  }
+
+  .card {
+    max-width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  input {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.calendar-header button {
+  width: auto;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+/* ===== ランキング ===== */
+#rankingBox {
+  margin-top: 15px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  color: #000;
+}
+
+.rank-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.rank-item:last-child {
+  border-bottom: none;
+}
+
+.rank-name {
+  font-weight: bold;
+}
+
+.rank-xp {
+  color: #ff9800;
+}calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.calendar-header button {
+  width: auto;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
