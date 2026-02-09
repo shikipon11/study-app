@@ -52,8 +52,8 @@ let timerInterval; // タイマー更新用setIntervals
 let timerMode = "normal"; // タイマーモード（normal / pomodoro）
 let pomodoroPhase = "work"; // ポモドーロの状態（work: 集中 / break: 休憩）
 let pomodoroCount = 0; // 完了した集中回数
-const pomodoroWork = 25 * 60 * 1000; // 集中25分
-const pomodoroBreak = 5 * 60 * 1000; // 休憩5分
+const pomodoroWork = 1 * 6 * 1000; // 集中25分
+const pomodoroBreak = 1 * 6 * 1000; // 休憩5分
 // ===== 効果音 =====
 const phaseChangeSound = new Audio("目覚まし時計のアラーム.mp3"); // 集中→休憩 / 休憩→集中 用
 phaseChangeSound.volume = 0.6; // 音量（0.0〜1.0）
