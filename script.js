@@ -107,8 +107,8 @@ let achievements = {
     unlocked: false },
 
   STREAK_3: {
-    title: "3日坊主...じゃなかった...",
-    description: "3日連続で勉強した",
+    title: "3日坊主失敗",
+    description: "4日連続で勉強した",
     unlocked: false },
 
   STREAK_7: {
@@ -337,7 +337,7 @@ function checkAchievements() {
   });
   //ストリーク
   const streak = calcStudyStreak(records);
-  achievements.STREAK_3.unlocked = streak >= 3;
+  achievements.STREAK_3.unlocked = streak >= 4;
   achievements.STREAK_7.unlocked = streak >= 7;
   achievements.STREAK_30.unlocked = streak >= 30;
   achievements.STREAK_180.unlocked = streak >= 180;
