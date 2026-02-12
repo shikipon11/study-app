@@ -104,11 +104,11 @@ button {
 }
 
 /* 記録ページ戻るボタン */
-#to-main, #to-records,#to-rival,#to-achievement,#to-main-from-rival {
+#to-main, #to-records,#to-rival,#to-achievement,#to-main-from-rival,#back-from-achievement{
   background: linear-gradient(135deg, #9c27b0, #e91e63);
   color: #fff;
 }
-#to-main:hover, #to-records:hover,#to-rival:hover,#to-achievement:hover{
+#to-main:hover, #to-records:hover,#to-rival:hover,#to-achievement:hover,#back-from-achievement:hover{
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
